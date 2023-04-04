@@ -27,11 +27,17 @@ class UsuarioController extends Controller
         
         if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){
             // Logou
-            dd('deu bom');
-            //return view('pesquisa.index');
+            //dd('deu bom');
+            return view('dash.index');
         } else {
             // Não logou
             return redirect()->back()->with('danger','Credencial inválida');
         }
+    }
+
+    public function out()
+    {
+        Auth::logout();
+        return view('login.index');
     }
 }

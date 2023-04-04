@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsuarioController;
+use App\Http\Controllers\DashController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,3 +21,8 @@ use App\Http\Controllers\UsuarioController;
 
 Route::get('/',[UsuarioController::class,'index'])->name('login.page');
 Route::post('/auth',[UsuarioController::class,'auth'])->name('auth.user');
+Route::get('/out',[UsuarioController::class,'out'])->name('user.out');
+
+Route::middleware(['client'])->group(function(){
+    Route::get('home',[DashController::class,'index'])->name("home");
+});

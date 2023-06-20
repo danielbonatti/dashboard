@@ -16,6 +16,19 @@ class DashController extends Controller
         return view('dash.index');
     }
 
+    public function atualizarTag(Request $request)
+    {
+        // Obtenha os dados enviados via AJAX
+        $dados = $request->input('dados');
+        $array = $dados['array']; // Acessando o array enviado via AJAX
+        $outroDado = $dados['outroDado']; // Acessando o outro dado enviado via AJAX
+
+        // Lógica para atualizar o conteúdo da tag (por exemplo, salvar no banco de dados)
+
+        // Retorna a resposta em JSON
+        return response()->json(['success' => true,'retorno' => $outroDado]);
+    }
+
     /**
      * Show the form for creating a new resource.
      *

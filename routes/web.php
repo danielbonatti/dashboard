@@ -25,4 +25,6 @@ Route::get('/out',[UsuarioController::class,'out'])->name('user.out');
 
 Route::middleware(['client'])->group(function(){
     Route::get('home',[DashController::class,'index'])->name("home");
+
+    Route::post('/atualizar-tag', [DashController::class,'atualizarTag'])->name('atualizar.tag');
 });

@@ -28,7 +28,13 @@ class UsuarioController extends Controller
         if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){
             // Logou
             //dd('deu bom');
-            return view('dash.index');
+
+            // Combos 
+            $setores = DB::table('chc_pcc')->whereRaw('coalesce(pcc_inativ,"N")="N"')->get(); // setor
+            $convenios = DB::table('clientes')->select('xclientes as codigo','razao')->get(); // convênio
+            // -----------
+
+            return view('dash.index',compact('setores','convenios'));
         } else {
             // Não logou
             return redirect()->back()->with('danger','Credencial inválida');

@@ -5,10 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Scripts -->
-    <script src="{{ asset('public/js/app.js') }}" defer></script>
+    <script src="{{ asset('public/js/app.js') }}"></script>
     <!-- Styles -->
     <link rel="icon" href="{{ asset('public/images/favicon-16x16.ico') }}" type="image/x-icon">
     <link href="{{ asset('public/css/app.css') }}" rel="stylesheet">
+    <!-- jQuery 3.6.0 -->
+    <script src="{{ asset('public/plugins/jquery-3.6.0.min.js') }}"></script>
 
     <style>
       form {
@@ -28,5 +30,36 @@
 
     @yield('content')
 
+    <!-- JavaScript -->
+    <script>
+      
+      // Adicione um evento para atualizar a tag quando necessário
+      $(document).ready(function() {
+          // Exemplo de evento de clique para atualizar a tag
+          $('#minha-botao').click(function() {
+            var dados = {
+                array: [1, 2, 3], // Exemplo de array que será enviado para a rota
+                outroDado: 'Valor'
+            };
+
+              // Envie uma solicitação AJAX para atualizar a tag
+              $.ajax({
+                  url: '{{ route('atualizar.tag') }}',
+                  type: 'POST',
+                  data: {
+                      _token: '{{ csrf_token() }}',
+                      dados: dados
+                  },
+                  success: function(response) {
+                      if (response.success) {
+                          // Atualize a tag com o novo conteúdo
+                          $('#minha-tag').text(response.retorno);
+                      }
+                  }
+              });
+          });
+      });
+
+    </script>
   </body>
 </html>

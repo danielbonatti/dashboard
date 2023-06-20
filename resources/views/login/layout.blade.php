@@ -16,7 +16,7 @@
       };
     </style>
 
-    <title>Login CCIH</title>
+    <title>Login Dashboard</title>
   </head>
   <body>
 

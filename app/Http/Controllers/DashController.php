@@ -23,8 +23,6 @@ class DashController extends Controller
         $array = $dados['array']; // Acessando o array enviado via AJAX
         $outroDado = $dados['outroDado']; // Acessando o outro dado enviado via AJAX
 
-        // Lógica para atualizar o conteúdo da tag (por exemplo, salvar no banco de dados)
-
         // Retorna a resposta em JSON
         return response()->json(['success' => true,'retorno' => $outroDado]);
     }

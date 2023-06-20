@@ -20,7 +20,7 @@
 
     <title>Dashboard</title>
   </head>
-  <body class="pb-2">
+  <body>
     <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
       <a href="{{route('home')}}" class="my-0 mr-md-auto" title="início"><img src="{{ asset('public/images/logo.png') }}" height="36" alt="HSist"></a>
       <nav class="my-2 my-md-0 mr-md-3">
@@ -42,21 +42,21 @@
                 outroDado: 'Valor'
             };
 
-              // Envie uma solicitação AJAX para atualizar a tag
-              $.ajax({
-                  url: '{{ route('atualizar.tag') }}',
-                  type: 'POST',
-                  data: {
-                      _token: '{{ csrf_token() }}',
-                      dados: dados
-                  },
-                  success: function(response) {
-                      if (response.success) {
-                          // Atualize a tag com o novo conteúdo
-                          $('#minha-tag').text(response.retorno);
-                      }
-                  }
-              });
+            // Envie uma solicitação AJAX para atualizar a tag
+            $.ajax({
+                url: '{{ route('atualizar.tag') }}',
+                type: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    dados: dados
+                },
+                success: function(response) {
+                    if (response.success) {
+                        // Atualize a tag com o novo conteúdo
+                        $('#minha-tag').text(response.retorno);
+                    }
+                }
+            });
           });
       });
 

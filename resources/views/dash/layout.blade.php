@@ -20,7 +20,7 @@
 
     <title>Dashboard</title>
   </head>
-  <body>
+  <body class="pb-2">
     <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
       <a href="{{route('home')}}" class="my-0 mr-md-auto" title="início"><img src="{{ asset('public/images/logo.png') }}" height="36" alt="HSist"></a>
       <nav class="my-2 my-md-0 mr-md-3">
@@ -36,10 +36,15 @@
       // Adicione um evento para atualizar a tag quando necessário
       $(document).ready(function() {
           // Exemplo de evento de clique para atualizar a tag
-          $('#minha-botao').click(function() {
+          $('#atualiza').click(function() {
             var dados = {
                 array: [1, 2, 3], // Exemplo de array que será enviado para a rota
-                outroDado: 'Valor'
+                outroDado: 'Valor',
+
+                compe: $('#compe').val(),
+                setor: $('#setor').val(),
+                conve: $('#convenio').val(),
+                anali: $('#analise').val()
             };
 
             // Envie uma solicitação AJAX para atualizar a tag
@@ -53,7 +58,7 @@
                 success: function(response) {
                     if (response.success) {
                         // Atualize a tag com o novo conteúdo
-                        $('#minha-tag').text(response.retorno);
+                        $('#qtd_ate').text(response.retorno);
                     }
                 }
             });

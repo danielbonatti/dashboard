@@ -17,6 +17,7 @@
                                 <div class="form-group">
                                     <label for="setor">Setor</label>
                                     <select class="form-control" id="setor">
+                                        <option value="" data-default disabled selected></option>
                                         @foreach($setores as $setor)
                                             <option value="{{$setor->pcc_codigo}}">{{$setor->pcc_especi}}</option>
                                         @endforeach
@@ -27,6 +28,7 @@
                                 <div class="form-group">
                                     <label for="convenio">Convênio</label>
                                     <select class="form-control" id="convenio">
+                                        <option value="" data-default disabled selected></option>
                                         @foreach($convenios as $convenio)
                                             <option value="{{$convenio->codigo}}">{{$convenio->razao}}</option>
                                         @endforeach
@@ -43,7 +45,7 @@
                             </li>
                             <li class="nav-item">
                                 <div class="form-group">
-                                    <button type="submit" class="btn btn-primary"><i class="fa-solid fa-spinner"></i> Atualizar</button>
+                                    <a class="btn btn-primary" id="atualiza" href="#" role="button"><i class="fa-solid fa-rotate"></i> Atualizar</a>
                                 </div>
                             </li>
                         </ul>
@@ -56,27 +58,18 @@
                     <h1 class="h2">Dashboard</h1>
                 </div>
 
-                <h2>Título da seção</h2>
-                <div class="table-responsive">
-                    <table class="table table-striped table-sm">
-                        <tr>
-                            <td>
-                                <div>
-                                    <h6 class="my-0">Total de atendimentos</h6>
-                                    <small class="text-muted">Atendimentos não cancelados</small>
-                                </div>
-                                <span class="text-muted">875</span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <button id="minha-botao">Clique aqui</button>
-                                <br>
-                                <div id="minha-tag">Conteúdo inicial da tag</div>
-                            </td>
-                        </tr>
-                    </table>
+                <div class="border-0 col-2">
+                    <div class="row">
+                        <div class="col-3 rounded-left border border-dark border-right-0 bg-dark d-flex justify-content-center pt-4">
+                            <i class="fa-solid fa-user-doctor fa-2xl" style="color: #fafafa;"></i>
+                        </div>
+                        <div class="col-9 rounded-right border border-dark border-left-0 bg-white text-center pt-3">
+                            <div id="qtd_ate">0</div>
+                            <p class="text-muted">Total de Atendimentos</p>
+                        </div>
+                    </div>
                 </div>
+
             </main>
         </div>
     </div>

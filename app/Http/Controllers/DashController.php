@@ -42,6 +42,7 @@ class DashController extends Controller
             $cond2
         ");*/
 
+        // Total de Atendimentos
         $consulta = DB::select("
             select count(*) qtd 
             from chc_ate 
@@ -51,14 +52,36 @@ class DashController extends Controller
             $cond1
             $cond2
         ");
-
         $retor = 0;
         if(!is_null($consulta)){
             $retor = $consulta[0]->qtd;
         }
 
+        // Média Diária de Atendimentos
+        $medate = $retor / cal_days_in_month(CAL_GREGORIAN,substr($compe,-2),substr($compe,0,4));
+        $medate = number_format($medate, 2, '.', '');
+
+        // Internações após consulta
+        $intcon = DB::select("
+            select count(*) qtd 
+            from chc_ate 
+            inner join gsc_sol_infgui on (sol_numate=ate_numate and sol_datcan is null)
+            where concat(year(ate_datini),'-',substring(ate_datini,6,2))='$compe'
+            and ate_modate='$anali'
+            and coalesce(ate_cancel,'N')='N'
+            $cond1
+            $cond2
+        ");
+        $qtdiac = 0;
+        if(!is_null($intcon)){
+            $qtdiac = $intcon[0]->qtd;
+        }
+
+        // Taxa de conversão
+        $taxcon = $qtdiac / $retor;
+
         // Retorna a resposta em JSON
-        return response()->json(['success' => true,'retorno' => $retor]);
+        return response()->json(['success' => true,'totate' => $retor,'medate' => $medate,'inapco' => $qtdiac,'taxcon' => $taxcon]);
     }
 
     /**

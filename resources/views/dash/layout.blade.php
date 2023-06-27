@@ -58,7 +58,10 @@
                 success: function(response) {
                     if (response.success) {
                         // Atualize a tag com o novo conteúdo
-                        $('#qtd_ate').text(response.retorno);
+                        $('#qtd_ate').text(response.totate);
+                        $('#med_ate').text(response.medate);
+                        $('#int_ate').text(response.inapco);
+                        $('#tax_con').text(response.taxcon);
                     }
                 }
             });

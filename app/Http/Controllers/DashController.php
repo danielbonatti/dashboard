@@ -183,8 +183,64 @@ class DashController extends Controller
 
         // ==============================
 
+        // Top 5 Convênios
+        $conv1 = array();
+        $qtdc1 = array();
+        $qtdc2 = array();
+
+        try {
+            $cons3 = DB::select("
+                select (select left(nome,10) from clientes where xclientes=ate_conven) conve,sum(quan1) quan1,sum(quan2) quan2,sum(quan3) quan3 from (
+                    select ate_conven,quan1,quan2,quan3 from (
+                        select ate_conven,count(*) quan1,0 quan2,count(*) quan3
+                        from chc_ate
+                        where concat(year(ate_datini),'-',substring(ate_datini,6,2))='$compe'
+                        and ate_modate='$anali'
+                        and coalesce(ate_cancel,'N')='N'
+                        $cond1
+                        $cond2
+                        group by ate_conven
+                    ) x1
+                    inner join chc_con on con_codigo=ate_conven
+                    where if(con_grufat=(select par_grfapd from gsc_par where codigo_emp=1),1,0)=0
+
+                    union all
+
+                    select ate_conven,quan1,quan2,quan3 from (
+                        select ate_conven,0 quan1,count(*) quan2,count(*) quan3
+                        from chc_ate
+                        where concat(year(ate_datini),'-',substring(ate_datini,6,2))='$compe'
+                        and ate_modate='$anali'
+                        and coalesce(ate_cancel,'N')='N'
+                        $cond1
+                        $cond2
+                        group by ate_conven
+                    ) x2
+                    inner join chc_con on con_codigo=ate_conven
+                    where if(con_grufat=(select par_grfapd from gsc_par where codigo_emp=1),1,0)=1
+                ) y
+                group by ate_conven
+                order by quan3 desc
+                limit 5
+            ");
+
+            foreach ($cons3 as $row) {
+                $conv1[] = $row->conve;
+                $qtdc1[] = $row->quan1;
+                $qtdc2[] = $row->quan2;
+            }
+        } catch (\Throwable $th) {
+            $erros[] = $th->getMessage();
+        }
+
+        // ==============================
+
         // Retorna a resposta em JSON
-        return response()->json(['success' => true,'labels' => $descr,'data' => $quant,'comp1' => $comp1,'quan1' => $quan1,'quan2' => $quan2]);
+        return response()->json(['success' => true,
+                                'labels' => $descr,'data' => $quant,
+                                'comp1' => $comp1,'quan1' => $quan1,'quan2' => $quan2,
+                                'conv1' => $conv1,'qtdc1' => $qtdc1,'qtdc2' => $qtdc2
+        ]);
     }
 
     /**

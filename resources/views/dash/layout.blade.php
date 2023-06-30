@@ -17,7 +17,12 @@
     <style>
       form {
         color:#666;
-      };
+      }
+
+      #chart-container {
+        max-height: 400px; 
+        width: 100%;
+      }
     </style>
 
     <title>Dashboard</title>
@@ -85,6 +90,7 @@
                 if (response.success) {
                   atualizarGrafico(response.labels,response.data);
                   atualizarGrafico1(response.comp1,response.quan1,response.quan2);
+                  atualizarGrafico2(response.conv1,response.qtdc1,response.qtdc2);
                 }
               }
             });
@@ -138,6 +144,28 @@
             responsive: true
           }
         });
+        // ======================
+
+        var ctx2 = document.getElementById('myChart2').getContext('2d');
+        var myChart = new Chart(ctx2, {
+          type: 'bar',
+          data: {
+            labels: [],
+            datasets: [{
+              label: 'aberto',
+              data: [],
+              backgroundColor: 'rgba(75, 192, 192, 0.2)'
+            },{
+              label: 'pacote',
+              data: [],
+              backgroundColor: 'rgba(54, 162, 235, 0.2)'
+            }]
+          },
+          options: {
+            responsive: true,
+            indexAxis: 'y'
+          }
+        });
       }
 
       function atualizarGrafico(newLabel,newDados) {
@@ -160,6 +188,14 @@
         chart.update();
       }
 
+      function atualizarGrafico2(newsCon,newsQu1,newsQu2) {
+        var chart = Chart.getChart('myChart2');
+        chart.data.datasets[0].data = newsQu1;
+        chart.data.datasets[1].data = newsQu2;
+        chart.data.labels = newsCon;
+        chart.update();
+      }
+
       function gerarCoresAleatorias(quantidade) {
         var cores = [];
         for (var i = 0; i < quantidade; i++) {
@@ -168,6 +204,24 @@
         }
         return cores;
       }
+
+      document.addEventListener("DOMContentLoaded", function() {
+        var chartContainer = document.getElementById('chart-container');
+
+        // Redimensionar o gráfico sempre que o tamanho do contêiner mudar
+        function resizeChart() {
+          var containerWidth = chartContainer.offsetWidth;
+          var containerHeight = chartContainer.offsetHeight;
+          
+          chart.canvas.parentNode.style.height = containerHeight + 'px';
+          chart.canvas.parentNode.style.width = containerWidth + 'px';
+          chart.resize();
+        }
+
+        // Redimensionar o gráfico inicialmente e sempre que a janela for redimensionada
+        resizeChart();
+        window.addEventListener('resize', resizeChart);
+      });
 
     </script>
   </body>

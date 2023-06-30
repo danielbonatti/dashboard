@@ -121,8 +121,70 @@ class DashController extends Controller
             $erros[] = $th->getMessage();
         }
 
+        // ==============================
+
+        // Histórico dos últimos 5 meses
+        // Criar um objeto DateTime com o valor inicial
+        $date = new \DateTime($compe);
+        // Subtrair 6 meses
+        $date->sub(new \DateInterval('P6M'));
+        // Obter o resultado formatado
+        $coini = $date->format('Y-m');
+
+        $comp1 = array();
+        $quan1 = array();
+        $quan2 = array();
+
+        try {
+            $cons2 = DB::select("
+                select compe,sum(quan1) quan1,sum(quan2) quan2 from (
+                    select compe,sum(quan1) quan1,sum(quan2) quan2 from (
+                        select ate_conven,concat(year(ate_datini),'-',substring(ate_datini,6,2)) compe,count(*) quan1,0 quan2
+                        from chc_ate
+                        where concat(year(ate_datini),'-',substring(ate_datini,6,2))>'$coini'
+                        and concat(year(ate_datini),'-',substring(ate_datini,6,2))<'$compe'
+                        and ate_modate='$anali'
+                        and coalesce(ate_cancel,'N')='N'
+                        $cond1
+                        $cond2
+                        group by ate_conven,concat(year(ate_datini),'-',substring(ate_datini,6,2))) x1
+                    inner join chc_con on con_codigo=ate_conven
+                    where if(con_grufat=(select par_grfapd from gsc_par where codigo_emp=1),1,0)=0
+                    group by compe
+
+                    union all
+
+                    select compe,sum(quan1) quan1,sum(quan2) quan2 from (
+                        select ate_conven,concat(year(ate_datini),'-',substring(ate_datini,6,2)) compe,0 quan1,count(*) quan2
+                        from chc_ate
+                        where concat(year(ate_datini),'-',substring(ate_datini,6,2))>'$coini'
+                        and concat(year(ate_datini),'-',substring(ate_datini,6,2))<'$compe'
+                        and ate_modate='$anali'
+                        and coalesce(ate_cancel,'N')='N'
+                        $cond1
+                        $cond2
+                        group by ate_conven,concat(year(ate_datini),'-',substring(ate_datini,6,2))) x2
+                    inner join chc_con on con_codigo=ate_conven
+                    where if(con_grufat=(select par_grfapd from gsc_par where codigo_emp=1),1,0)=1
+                    group by compe
+                ) y
+                group by compe
+                order by compe
+            ");
+
+            foreach ($cons2 as $row) {
+                $comp1[] = $row->compe;
+                $quan1[] = $row->quan1;
+                $quan2[] = $row->quan2;
+            }
+        } catch (\Throwable $th) {
+            $erros[] = $th->getMessage();
+        }
+
+        // ==============================
+
         // Retorna a resposta em JSON
-        return response()->json(['success' => true,'labels' => $descr,'data' => $quant]);
+        return response()->json(['success' => true,'labels' => $descr,'data' => $quant,'comp1' => $comp1,'quan1' => $quan1,'quan2' => $quan2]);
     }
 
     /**

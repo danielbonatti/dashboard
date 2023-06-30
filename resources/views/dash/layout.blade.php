@@ -84,51 +84,10 @@
               success: function(response) {
                 if (response.success) {
                   atualizarGrafico(response.labels,response.data);
+                  atualizarGrafico1(response.comp1,response.quan1,response.quan2);
                 }
               }
             });
-
-            /*$.ajax({
-              url: '{{ route('atualizar.gra') }}',
-              type: 'POST',
-              data: {
-                  _token: '{{ csrf_token() }}',
-                  dados: dados
-              },
-              success: function(response) {
-                if (response.success) {
-                  var labels = response.labels;
-                  var data = response.data;
-
-                  var ctx = document.getElementById('myChart').getContext('2d');
-                  var chart = new Chart(ctx, {
-                    type: 'pie',
-                    data: {
-                      labels: labels,
-                      datasets: [{
-                          label: 'Setor',
-                          data: data
-                      }]
-                    },
-                    options: {
-                      responsive: true,
-                      plugins: {
-                        legend: {
-                          display: true,
-                          position: 'bottom'
-                        },
-                        tooltip: {
-                          enabled: true
-                        },
-                        datalabels: {
-                          display: false
-                        }
-                      }
-                    }
-                  });
-                }
-              }
-            });*/
           });
 
           // Ao carregar a página
@@ -158,20 +117,46 @@
             }
           }
         });
+        // ======================
+
+        var ctx1 = document.getElementById('myChart1').getContext('2d');
+        var myChart = new Chart(ctx1, {
+          type: 'bar',
+          data: {
+            labels: [],
+            datasets: [{
+              label: 'aberto',
+              data: [],
+              backgroundColor: 'rgba(255, 99, 132, 0.5)'
+            },{
+              label: 'pacote',
+              data: [],
+              backgroundColor: 'rgba(255, 162, 235, 0.5)'
+            }]
+          },
+          options: {
+            responsive: true
+          }
+        });
       }
 
       function atualizarGrafico(newLabel,newDados) {
         // Obtenha a referência do gráfico
         var chart = Chart.getChart('myChart');
-
         // Atualize os dados do gráfico
         chart.data.datasets[0].data = newDados;
         chart.data.labels = newLabel;
-
         // Gere novas cores aleatórias
         chart.data.datasets[0].backgroundColor = gerarCoresAleatorias(newDados.length);
-
         // Atualize o gráfico
+        chart.update();
+      }
+
+      function atualizarGrafico1(newsCom,newsQu1,newsQu2) {
+        var chart = Chart.getChart('myChart1');
+        chart.data.datasets[0].data = newsQu1;
+        chart.data.datasets[1].data = newsQu2;
+        chart.data.labels = newsCom;
         chart.update();
       }
 

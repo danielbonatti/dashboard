@@ -10,7 +10,7 @@
                             <li class="nav-item">
                                 <div class="form-group">
                                     <label for="compe">Competência</label>
-                                    <input class="form-control" id="compe" type="month" value="<?php echo date('Y-m'); ?>">
+                                    <input class="form-control" id="compe" type="month" value="<?php echo '2021-08';//echo date('Y-m'); ?>">
                                 </div>
                             </li>
                             <li class="nav-item">
@@ -19,7 +19,7 @@
                                     <select class="form-control" id="setor">
                                         <option value="" data-default disabled selected></option>
                                         @foreach($setores as $setor)
-                                            <option value="{{$setor->PCC_CODIGO}}">{{$setor->pcc_especi}}</option>
+                                            <option value="{{$setor->pcc_codigo}}">{{$setor->pcc_especi}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -58,54 +58,86 @@
                     <h1 class="h2">Dashboard</h1>
                 </div>
 
-                <div class="border-0 col-2">
+                <div>
                     <div class="row">
-                        <div class="col-3 rounded-left border border-dark border-right-0 bg-dark d-flex justify-content-center pt-4">
-                            <i class="fa-solid fa-user-doctor fa-2xl" style="color: #fafafa;"></i>
+                        <div class="col-md-3">
+                            <div class="border-0 col-12">
+                                <div class="row">
+                                    <div class="col-3 rounded-left border border-dark border-right-0 bg-dark d-flex justify-content-center pt-4">
+                                        <i class="fa-solid fa-user-doctor fa-2xl" style="color: #fafafa;"></i>
+                                    </div>
+                                    <div class="col-9 rounded-right border border-dark border-left-0 bg-white text-center pt-3">
+                                        <div id="qtd_ate">0</div>
+                                        <p class="text-muted">Total de Atendimentos</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="border-0 col-12 mt-2">
+                                <div class="row">
+                                    <div class="col-3 rounded-left border border-dark border-right-0 bg-dark d-flex justify-content-center pt-4">
+                                    <i class="fa-solid fa-stethoscope fa-2xl" style="color: #fafafa;"></i>
+                                    </div>
+                                    <div class="col-9 rounded-right border border-dark border-left-0 bg-white text-center pt-3">
+                                        <div id="med_ate">0</div>
+                                        <p class="text-muted">Média Diária de Atend.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="border-0 col-12 mt-2">
+                                <div class="row">
+                                    <div class="col-3 rounded-left border border-dark border-right-0 bg-dark d-flex justify-content-center pt-4">
+                                    <i class="fa-solid fa-bed-pulse fa-2xl" style="color: #fafafa;"></i>
+                                    </div>
+                                    <div class="col-9 rounded-right border border-dark border-left-0 bg-white text-center pt-3">
+                                        <div id="int_ate">0</div>
+                                        <p class="text-muted">Intern. Após Consulta</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="border-0 col-12 mt-2">
+                                <div class="row">
+                                    <div class="col-3 rounded-left border border-dark border-right-0 bg-dark d-flex justify-content-center pt-4">
+                                    <i class="fa-solid fa-right-left fa-2xl" style="color: #fafafa;"></i>
+                                    </div>
+                                    <div class="col-9 rounded-right border border-dark border-left-0 bg-white text-center pt-3">
+                                        <div id="tax_con">0</div>
+                                        <p class="text-muted">Taxa de Conversão</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="border-0 col-12 mt-2">
+                                <div class="row">
+                                    <div class="col-12 text-center">
+                                        <h5>Atend. por Setor</h5>
+                                        <canvas id="myChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-9 rounded-right border border-dark border-left-0 bg-white text-center pt-3">
-                            <div id="qtd_ate">0</div>
-                            <p class="text-muted">Total de Atendimentos</p>
+                        <div class="col-md-9">
+                            <div class="row">
+                                <div class="border-0 col-12 mb-2">
+                                    gráfico 1
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="border-0 col-4">
+                                    gráfico 2
+                                </div>
+                                <div class="border-0 col-4">
+                                    gráfico 3
+                                </div>
+                                <div class="border-0 col-4">
+                                    gráfico 4
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-
-                <div class="border-0 col-2 mt-2">
-                    <div class="row">
-                        <div class="col-3 rounded-left border border-dark border-right-0 bg-dark d-flex justify-content-center pt-4">
-                        <i class="fa-solid fa-stethoscope fa-2xl" style="color: #fafafa;"></i>
-                        </div>
-                        <div class="col-9 rounded-right border border-dark border-left-0 bg-white text-center pt-3">
-                            <div id="med_ate">0</div>
-                            <p class="text-muted">Média Diária de Atend.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="border-0 col-2 mt-2">
-                    <div class="row">
-                        <div class="col-3 rounded-left border border-dark border-right-0 bg-dark d-flex justify-content-center pt-4">
-                        <i class="fa-solid fa-bed-pulse fa-2xl" style="color: #fafafa;"></i>
-                        </div>
-                        <div class="col-9 rounded-right border border-dark border-left-0 bg-white text-center pt-3">
-                            <div id="int_ate">0</div>
-                            <p class="text-muted">Intern. Após Consulta</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="border-0 col-2 mt-2">
-                    <div class="row">
-                        <div class="col-3 rounded-left border border-dark border-right-0 bg-dark d-flex justify-content-center pt-4">
-                        <i class="fa-solid fa-right-left fa-2xl" style="color: #fafafa;"></i>
-                        </div>
-                        <div class="col-9 rounded-right border border-dark border-left-0 bg-white text-center pt-3">
-                            <div id="tax_con">0</div>
-                            <p class="text-muted">Taxa de Conversão</p>
-                        </div>
-                    </div>
-                </div>
-
             </main>
         </div>
     </div>

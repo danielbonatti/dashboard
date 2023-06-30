@@ -32,56 +32,97 @@ class DashController extends Controller
         $cond1 = !empty($setor) ? " and ate_codset=$setor " : "";
         $cond2 = !empty($conve) ? " and ate_conven=$conve " : "";
 
-        /*$consulta = DB::select("
-            select 7 qtd
-            from chc_ate 
-            where concat(year(ate_datini),'-',substring(ate_datini,6,2))=$compet
-            and ate_modate=$analis
-            and coalesce(ate_cancel,'N')='N'
-            $cond1
-            $cond2
-        ");*/
+        $erros = array();
 
-        // Total de Atendimentos
-        $consulta = DB::select("
-            select count(*) qtd 
-            from chc_ate 
-            where concat(year(ate_datini),'-',substring(ate_datini,6,2))='$compe'
-            and ate_modate='$anali'
-            and coalesce(ate_cancel,'N')='N'
-            $cond1
-            $cond2
-        ");
-        $retor = 0;
-        if(!is_null($consulta)){
-            $retor = $consulta[0]->qtd;
+        $retor = 0;  // Total de Atendimentos
+        $medate = 0; // Média Diária de Atendimentos
+        try {
+            $consulta = DB::select("
+                select count(*) qtd 
+                from chc_ate 
+                where concat(year(ate_datini),'-',substring(ate_datini,6,2))='$compe'
+                and ate_modate='$anali'
+                and coalesce(ate_cancel,'N')='N'
+                $cond1
+                $cond2
+            ");
+
+            if(!empty($consulta) && isset($consulta[0]->qtd)){
+                $retor = $consulta[0]->qtd;                                                               // Total de atendimentos
+                $medate = $retor / cal_days_in_month(CAL_GREGORIAN,substr($compe,-2),substr($compe,0,4)); // Média Diária de Atendimentos
+                $medate = number_format($medate, 2, '.', '');
+            }
+        } catch (\Throwable $th) {
+            $erros[] = $th->getMessage();
         }
 
-        // Média Diária de Atendimentos
-        $medate = $retor / cal_days_in_month(CAL_GREGORIAN,substr($compe,-2),substr($compe,0,4));
-        $medate = number_format($medate, 2, '.', '');
+        $qtdiac = 0; // Internações após consulta
+        $taxcon = 0; // Taxa de conversão
+        try {
+            $intcon = DB::select("
+                select count(*) qtd 
+                from chc_ate 
+                inner join gsc_sol_infgui on (sol_numate=ate_numate and sol_datcan is null)
+                where concat(year(ate_datini),'-',substring(ate_datini,6,2))='$compe'
+                and ate_modate='$anali'
+                and coalesce(ate_cancel,'N')='N'
+                $cond1
+                $cond2
+            ");
 
-        // Internações após consulta
-        $intcon = DB::select("
-            select count(*) qtd 
-            from chc_ate 
-            inner join gsc_sol_infgui on (sol_numate=ate_numate and sol_datcan is null)
-            where concat(year(ate_datini),'-',substring(ate_datini,6,2))='$compe'
-            and ate_modate='$anali'
-            and coalesce(ate_cancel,'N')='N'
-            $cond1
-            $cond2
-        ");
-        $qtdiac = 0;
-        if(!is_null($intcon)){
-            $qtdiac = $intcon[0]->qtd;
+            if(!empty($intcon) && isset($intcon[0]->qtd)){
+                $qtdiac = $intcon[0]->qtd;  // Intern. Após Consulta
+                $taxcon = $qtdiac / $retor; // Taxa de conversão
+            }
+        } catch (\Throwable $th) {
+            $erros[] = $th->getMessage();
         }
-
-        // Taxa de conversão
-        $taxcon = $qtdiac / $retor;
 
         // Retorna a resposta em JSON
         return response()->json(['success' => true,'totate' => $retor,'medate' => $medate,'inapco' => $qtdiac,'taxcon' => $taxcon]);
+    }
+
+    public function atualizarGra(Request $request)
+    {
+        $dados = $request->input('dados');
+
+        $compe = $dados['compe'];
+        $setor = $dados['setor'];
+        $conve = $dados['conve'];
+        $anali = $dados['anali'];
+        
+        $cond1 = !empty($setor) ? " AND ate_codset=$setor " : "";
+        $cond2 = !empty($conve) ? " AND ate_conven=$conve " : "";
+
+        $erros = array();
+        
+        $descr = array();
+        $quant = array();
+        // Gráfico => atend. por setor
+        try {
+            $cons1 = DB::select("
+                select pcc_espsim descr, quant from (
+                    select ate_codset,count(*) quant
+                    from chc_ate
+                    where concat(year(ate_datini),'-',substring(ate_datini,6,2))='$compe'
+                    and ate_modate='$anali'
+                    and coalesce(ate_cancel,'N')='N'
+                    $cond1
+                    $cond2
+                    group by ate_codset) x
+                inner join chc_pcc on pcc_codigo=ate_codset
+            ");
+
+            foreach ($cons1 as $row) {
+                $descr[] = $row->descr;
+                $quant[] = $row->quant;
+            }
+        } catch (\Throwable $th) {
+            $erros[] = $th->getMessage();
+        }
+
+        // Retorna a resposta em JSON
+        return response()->json(['success' => true,'labels' => $descr,'data' => $quant]);
     }
 
     /**

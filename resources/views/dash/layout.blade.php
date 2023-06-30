@@ -11,6 +11,8 @@
     <link href="{{ asset('public/css/app.css') }}" rel="stylesheet">
     <!-- jQuery 3.6.0 -->
     <script src="{{ asset('public/plugins/jquery-3.6.0.min.js') }}"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
       form {
@@ -35,6 +37,10 @@
       
       // Adicione um evento para atualizar a tag quando necessário
       $(document).ready(function() {
+
+          // Função para criar o gráfico inicialmente
+          criarGrafico();
+
           // Exemplo de evento de clique para atualizar a tag
           $('#atualiza').click(function() {
             var dados = {
@@ -49,24 +55,134 @@
 
             // Envie uma solicitação AJAX para atualizar a tag
             $.ajax({
-                url: '{{ route('atualizar.tag') }}',
-                type: 'POST',
-                data: {
-                    _token: '{{ csrf_token() }}',
-                    dados: dados
-                },
-                success: function(response) {
-                    if (response.success) {
-                        // Atualize a tag com o novo conteúdo
-                        $('#qtd_ate').text(response.totate);
-                        $('#med_ate').text(response.medate);
-                        $('#int_ate').text(response.inapco);
-                        $('#tax_con').text(response.taxcon);
-                    }
-                }
+              url: '{{ route('atualizar.tag') }}',
+              type: 'POST',
+              data: {
+                  _token: '{{ csrf_token() }}',
+                  dados: dados
+              },
+              success: function(response) {
+                  if (response.success) {
+                      // Atualize a tag com o novo conteúdo
+                      $('#qtd_ate').text(response.totate);
+                      $('#med_ate').text(response.medate);
+                      $('#int_ate').text(response.inapco);
+                      $('#tax_con').text(response.taxcon);
+                  }
+              }
             });
+
+            // =============================================
+
+            $.ajax({
+              url: '{{ route('atualizar.gra') }}',
+              type: 'POST',
+              data: {
+                  _token: '{{ csrf_token() }}',
+                  dados: dados
+              },
+              success: function(response) {
+                if (response.success) {
+                  atualizarGrafico(response.labels,response.data);
+                }
+              }
+            });
+
+            /*$.ajax({
+              url: '{{ route('atualizar.gra') }}',
+              type: 'POST',
+              data: {
+                  _token: '{{ csrf_token() }}',
+                  dados: dados
+              },
+              success: function(response) {
+                if (response.success) {
+                  var labels = response.labels;
+                  var data = response.data;
+
+                  var ctx = document.getElementById('myChart').getContext('2d');
+                  var chart = new Chart(ctx, {
+                    type: 'pie',
+                    data: {
+                      labels: labels,
+                      datasets: [{
+                          label: 'Setor',
+                          data: data
+                      }]
+                    },
+                    options: {
+                      responsive: true,
+                      plugins: {
+                        legend: {
+                          display: true,
+                          position: 'bottom'
+                        },
+                        tooltip: {
+                          enabled: true
+                        },
+                        datalabels: {
+                          display: false
+                        }
+                      }
+                    }
+                  });
+                }
+              }
+            });*/
           });
+
+          // Ao carregar a página
+          $('#atualiza').click();
       });
+
+      function criarGrafico() {
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+          type: 'pie',
+          data: {
+            labels: [],
+            datasets: [{
+              data: []
+            }]
+          },
+          options: {
+            responsive: true,
+            plugins: {
+              legend: {
+                display: true,
+                position: 'bottom'
+              },
+              tooltip: {
+                enabled: true
+              }
+            }
+          }
+        });
+      }
+
+      function atualizarGrafico(newLabel,newDados) {
+        // Obtenha a referência do gráfico
+        var chart = Chart.getChart('myChart');
+
+        // Atualize os dados do gráfico
+        chart.data.datasets[0].data = newDados;
+        chart.data.labels = newLabel;
+
+        // Gere novas cores aleatórias
+        chart.data.datasets[0].backgroundColor = gerarCoresAleatorias(newDados.length);
+
+        // Atualize o gráfico
+        chart.update();
+      }
+
+      function gerarCoresAleatorias(quantidade) {
+        var cores = [];
+        for (var i = 0; i < quantidade; i++) {
+          var cor = '#' + Math.floor(Math.random() * 16777215).toString(16);
+          cores.push(cor);
+        }
+        return cores;
+      }
 
     </script>
   </body>

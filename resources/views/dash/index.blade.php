@@ -3,7 +3,7 @@
 
     <div class="container-fluid">
         <div class="row">
-            <nav class="col-md-2 d-none d-md-block bg-light border-right sidebar">
+            <nav class="col-md-2 bg-light border-right sidebar"> <!-- d-none d-md-block -->
                 <div class="sidebar-sticky">
                     <form>
                         <ul class="nav flex-column">
@@ -17,7 +17,7 @@
                                 <div class="form-group">
                                     <label for="setor">Setor</label>
                                     <select class="form-control" id="setor">
-                                        <option value="" data-default disabled selected></option>
+                                        <option value="" data-default selected></option>
                                         @foreach($setores as $setor)
                                             <option value="{{$setor->pcc_codigo}}">{{$setor->pcc_especi}}</option>
                                         @endforeach
@@ -28,7 +28,7 @@
                                 <div class="form-group">
                                     <label for="convenio">Convênio</label>
                                     <select class="form-control" id="convenio">
-                                        <option value="" data-default disabled selected></option>
+                                        <option value="" data-default selected></option>
                                         @foreach($convenios as $convenio)
                                             <option value="{{$convenio->codigo}}">{{$convenio->razao}}</option>
                                         @endforeach

@@ -89,8 +89,10 @@
               success: function(response) {
                 if (response.success) {
                   atualizarGrafico(response.labels,response.data);
-                  atualizarGrafico1(response.comp1,response.quan1,response.quan2);
-                  atualizarGrafico2(response.conv1,response.qtdc1,response.qtdc2);
+                  atualizarGraficoBar('myChart1',response.comp1,response.quan1,response.quan2);
+                  atualizarGraficoBar('myChart2',response.conv1,response.qtdc1,response.qtdc2);
+                  atualizarGraficoBar('myChart3',response.medi1,response.qtdm1,response.qtdm2);
+                  atualizarGraficoBar('myChart4',response.diag1,response.qtdd1,response.qtdd2);
                 }
               }
             });
@@ -131,13 +133,13 @@
           data: {
             labels: [],
             datasets: [{
-              label: 'aberto',
-              data: [],
-              backgroundColor: 'rgba(255, 99, 132, 0.5)'
-            },{
               label: 'pacote',
               data: [],
-              backgroundColor: 'rgba(255, 162, 235, 0.5)'
+              backgroundColor: 'rgba(255, 99, 132)'
+            },{
+              label: 'aberto',
+              data: [],
+              backgroundColor: 'rgba(255, 162, 235)'
             }]
           },
           options: {
@@ -152,13 +154,59 @@
           data: {
             labels: [],
             datasets: [{
-              label: 'aberto',
-              data: [],
-              backgroundColor: 'rgba(75, 192, 192, 0.2)'
-            },{
               label: 'pacote',
               data: [],
-              backgroundColor: 'rgba(54, 162, 235, 0.2)'
+              backgroundColor: 'rgba(0,128,0)'
+            },{
+              label: 'aberto',
+              data: [],
+              backgroundColor: 'rgba(0,255,0)'
+            }]
+          },
+          options: {
+            responsive: true,
+            indexAxis: 'y'
+          }
+        });
+
+        // ======================
+
+        var ctx3 = document.getElementById('myChart3').getContext('2d');
+        var myChart = new Chart(ctx3, {
+          type: 'bar',
+          data: {
+            labels: [],
+            datasets: [{
+              label: 'pacote',
+              data: [],
+              backgroundColor: 'rgba(75, 192, 192)'
+            },{
+              label: 'aberto',
+              data: [],
+              backgroundColor: 'rgba(54, 162, 235)'
+            }]
+          },
+          options: {
+            responsive: true,
+            indexAxis: 'y'
+          }
+        });
+
+        // ======================
+
+        var ctx4 = document.getElementById('myChart4').getContext('2d');
+        var myChart = new Chart(ctx4, {
+          type: 'bar',
+          data: {
+            labels: [],
+            datasets: [{
+              label: 'pacote',
+              data: [],
+              backgroundColor: 'rgba(0, 0, 255)'
+            },{
+              label: 'aberto',
+              data: [],
+              backgroundColor: 'rgba(0,191,255)'
             }]
           },
           options: {
@@ -180,19 +228,12 @@
         chart.update();
       }
 
-      function atualizarGrafico1(newsCom,newsQu1,newsQu2) {
-        var chart = Chart.getChart('myChart1');
+      // Atualiza graf. barras
+      function atualizarGraficoBar(idCanvas,newsCom,newsQu1,newsQu2) {
+        var chart = Chart.getChart(idCanvas);
         chart.data.datasets[0].data = newsQu1;
         chart.data.datasets[1].data = newsQu2;
         chart.data.labels = newsCom;
-        chart.update();
-      }
-
-      function atualizarGrafico2(newsCon,newsQu1,newsQu2) {
-        var chart = Chart.getChart('myChart2');
-        chart.data.datasets[0].data = newsQu1;
-        chart.data.datasets[1].data = newsQu2;
-        chart.data.labels = newsCon;
         chart.update();
       }
 

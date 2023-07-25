@@ -149,7 +149,7 @@ class DashController extends Controller
                         $cond2
                         group by ate_conven,concat(year(ate_datini),'-',substring(ate_datini,6,2))) x1
                     inner join chc_con on con_codigo=ate_conven
-                    where if(con_grufat=(select par_grfapd from gsc_par where codigo_emp=1),1,0)=0
+                    where if(con_grufat=(select par_grfapd from gsc_par where codigo_emp=1),1,0)=1
                     group by compe
 
                     union all
@@ -165,7 +165,7 @@ class DashController extends Controller
                         $cond2
                         group by ate_conven,concat(year(ate_datini),'-',substring(ate_datini,6,2))) x2
                     inner join chc_con on con_codigo=ate_conven
-                    where if(con_grufat=(select par_grfapd from gsc_par where codigo_emp=1),1,0)=1
+                    where if(con_grufat=(select par_grfapd from gsc_par where codigo_emp=1),1,0)=0
                     group by compe
                 ) y
                 group by compe
@@ -202,7 +202,7 @@ class DashController extends Controller
                         group by ate_conven
                     ) x1
                     inner join chc_con on con_codigo=ate_conven
-                    where if(con_grufat=(select par_grfapd from gsc_par where codigo_emp=1),1,0)=0
+                    where if(con_grufat=(select par_grfapd from gsc_par where codigo_emp=1),1,0)=1
 
                     union all
 
@@ -217,7 +217,7 @@ class DashController extends Controller
                         group by ate_conven
                     ) x2
                     inner join chc_con on con_codigo=ate_conven
-                    where if(con_grufat=(select par_grfapd from gsc_par where codigo_emp=1),1,0)=1
+                    where if(con_grufat=(select par_grfapd from gsc_par where codigo_emp=1),1,0)=0
                 ) y
                 group by ate_conven
                 order by quan3 desc
@@ -235,11 +235,117 @@ class DashController extends Controller
 
         // ==============================
 
+        // Top 5 Médicos
+        $medi1 = array();
+        $qtdm1 = array();
+        $qtdm2 = array();
+
+        try {
+            $cons4 = DB::select("
+                select (select left(razao,10) from clientes where xclientes=ate_medico) medic,sum(quan1) quan1,sum(quan2) quan2,sum(quan3) quan3 from (
+                    select ate_conven,quan1,quan2,quan3,ate_medico from (
+                        select ate_conven,count(*) quan1,0 quan2,count(*) quan3,ate_medico
+                        from chc_ate
+                        where concat(year(ate_datini),'-',substring(ate_datini,6,2))='$compe'
+                        and ate_modate='$anali'
+                        and coalesce(ate_cancel,'N')='N'
+                        $cond1
+                        $cond2
+                        group by ate_medico,ate_conven
+                    ) x
+                    inner join chc_con on con_codigo=ate_conven
+                    where if(con_grufat=(select par_grfapd from gsc_par where codigo_emp=1),1,0)=1
+
+                    union all
+
+                    select ate_conven,quan1,quan2,quan3,ate_medico from (
+                        select ate_conven,0 quan1,count(*) quan2,count(*) quan3,ate_medico
+                        from chc_ate
+                        where concat(year(ate_datini),'-',substring(ate_datini,6,2))='$compe'
+                        and ate_modate='$anali'
+                        and coalesce(ate_cancel,'N')='N'
+                        $cond1
+                        $cond2
+                        group by ate_medico,ate_conven
+                    ) y
+                    inner join chc_con on con_codigo=ate_conven
+                    where if(con_grufat=(select par_grfapd from gsc_par where codigo_emp=1),1,0)=0
+                ) z
+                group by ate_medico
+                order by quan3 desc
+                limit 5
+            ");
+
+            foreach ($cons4 as $row) {
+                $medi1[] = $row->medic;
+                $qtdm1[] = $row->quan1;
+                $qtdm2[] = $row->quan2;
+            }
+        } catch (\Throwable $th) {
+            $erros[] = $th->getMessage();
+        }
+
+        // ==============================
+
+        // Top 5 Médicos
+        $diag1 = array();
+        $qtdd1 = array();
+        $qtdd2 = array();
+
+        try {
+            $cons5 = DB::select("
+                select coalesce((select left(dgn_especi,10) from chc_dia where dgn_codigo=ate_c10ini),'VAZIO') diagn,sum(quan1) quan1,sum(quan2) quan2,sum(quan3) quan3 from (
+                    select ate_conven,quan1,quan2,quan3,ate_c10ini from (
+                        select ate_conven,count(*) quan1,0 quan2,count(*) quan3,ate_c10ini
+                        from chc_ate
+                        where concat(year(ate_datini),'-',substring(ate_datini,6,2))='$compe'
+                        and ate_modate='$anali'
+                        and coalesce(ate_cancel,'N')='N'
+                        $cond1
+                        $cond2
+                        group by ate_c10ini,ate_conven
+                    ) x
+                    inner join chc_con on con_codigo=ate_conven
+                    where if(con_grufat=(select par_grfapd from gsc_par where codigo_emp=1),1,0)=1
+
+                    union all
+
+                    select ate_conven,quan1,quan2,quan3,ate_c10ini from (
+                        select ate_conven,0 quan1,count(*) quan2,count(*) quan3,ate_c10ini
+                        from chc_ate
+                        where concat(year(ate_datini),'-',substring(ate_datini,6,2))='$compe'
+                        and ate_modate='$anali'
+                        and coalesce(ate_cancel,'N')='N'
+                        $cond1
+                        $cond2
+                        group by ate_c10ini,ate_conven
+                    ) y
+                    inner join chc_con on con_codigo=ate_conven
+                    where if(con_grufat=(select par_grfapd from gsc_par where codigo_emp=1),1,0)=0
+                ) z
+                group by ate_c10ini
+                order by quan3 desc
+                limit 5
+            ");
+
+            foreach ($cons5 as $row) {
+                $diag1[] = $row->diagn;
+                $qtdd1[] = $row->quan1;
+                $qtdd2[] = $row->quan2;
+            }
+        } catch (\Throwable $th) {
+            $erros[] = $th->getMessage();
+        }
+
+        // ==============================
+
         // Retorna a resposta em JSON
         return response()->json(['success' => true,
                                 'labels' => $descr,'data' => $quant,
                                 'comp1' => $comp1,'quan1' => $quan1,'quan2' => $quan2,
-                                'conv1' => $conv1,'qtdc1' => $qtdc1,'qtdc2' => $qtdc2
+                                'conv1' => $conv1,'qtdc1' => $qtdc1,'qtdc2' => $qtdc2,
+                                'medi1' => $medi1,'qtdm1' => $qtdm1,'qtdm2' => $qtdm2,
+                                'diag1' => $diag1,'qtdd1' => $qtdd1,'qtdd2' => $qtdd2
         ]);
     }
 

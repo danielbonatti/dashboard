@@ -3,7 +3,7 @@
 
     <div class="container-fluid">
         <div class="row">
-            <nav class="col-md-2 bg-light border-right sidebar"> <!-- d-none d-md-block -->
+            <nav class="col-12 col-sm-12 col-md-3 col-lg-2 bg-light border-right sidebar"> <!-- d-none d-md-block -->
                 <div class="sidebar-sticky">
                     <form>
                         <ul class="nav flex-column">
@@ -53,14 +53,14 @@
                 </div>
             </nav>
 
-            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+            <main role="main" class="col-12 col-sm-12 col-md-9 col-lg-10 ml-sm-auto px-4">
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                     <h1 class="h2">Dashboard</h1>
                 </div>
 
                 <div>
                     <div class="row">
-                        <div class="col-md-3">
+                        <div class="col-12 col-sm-12 col-md-3 col-lg-3">
                             <div class="border-0 col-12">
                                 <div class="row">
                                     <div class="col-3 rounded-left border border-dark border-right-0 bg-dark d-flex justify-content-center pt-3">
@@ -119,9 +119,9 @@
                             </div>
                         </div>
 
-                        <div class="col-md-9">
+                        <div class="col-12 col-sm-12 col-md-9 col-lg-9">
                             <div class="row">
-                                <div class="border-0 col-12 mb-2 text-center">
+                                <div class="border-0 col-12 col-sm-12 col-md-12 col-lg-12 mb-2 text-center">
                                     <h5>Atendimentos por Mês</h5>
                                     <div class="d-flex justify-content-center" id="chart-container">
                                         <canvas id="myChart1"></canvas>
@@ -129,15 +129,15 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="border-top pt-2 pb-2 col-12 col-md-4 text-center">
+                                <div class="border-top pt-2 pb-2 col-12 col-sm-12 col-md-12 col-lg-4 text-center">
                                     <h5>Top 5 Convênios</h5>
                                     <canvas id="myChart2"></canvas>
                                 </div>
-                                <div class="border-top pt-2 pb-2 col-12 col-md-4 text-center">
+                                <div class="border-top pt-2 pb-2 col-12 col-sm-12 col-md-12 col-lg-4 text-center">
                                     <h5>Top 5 Médicos</h5>
                                     <canvas id="myChart3"></canvas>
                                 </div>
-                                <div class="border-top pt-2 pb-2 col-12 col-md-4 text-center">
+                                <div class="border-top pt-2 pb-2 col-12 col-sm-12 col-md-12 col-lg-4 text-center">
                                     <h5>Top 5 Diagnósticos</h5>
                                     <canvas id="myChart4"></canvas>
                                 </div>

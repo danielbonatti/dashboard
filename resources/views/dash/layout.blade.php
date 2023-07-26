@@ -12,7 +12,7 @@
     <!-- jQuery 3.6.0 -->
     <script src="{{ asset('public/plugins/jquery-3.6.0.min.js') }}"></script>
     <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="{{ asset('public/js/chart.js') }}"></script>
 
     <style>
       form {
@@ -46,11 +46,12 @@
           // Função para criar o gráfico inicialmente
           criarGrafico();
 
-          // Exemplo de evento de clique para atualizar a tag
+          // Evento de clique para atualizar a tag
           $('#atualiza').click(function() {
             var dados = {
-                array: [1, 2, 3], // Exemplo de array que será enviado para a rota
-                outroDado: 'Valor',
+                /* Exemplo de array que será enviado para a rota
+                array: [1, 2, 3], 
+                outroDado: 'Valor',*/
 
                 compe: $('#compe').val(),
                 setor: $('#setor').val(),
@@ -58,7 +59,8 @@
                 anali: $('#analise').val()
             };
 
-            // Envie uma solicitação AJAX para atualizar a tag
+            // ATUALIZA INDICADORES
+            // Envia uma solicitação AJAX para atualizar a tag
             $.ajax({
               url: '{{ route('atualizar.tag') }}',
               type: 'POST',
@@ -68,7 +70,7 @@
               },
               success: function(response) {
                   if (response.success) {
-                      // Atualize a tag com o novo conteúdo
+                      // Atualiza as tags com o novo conteúdo (indicadores)
                       $('#qtd_ate').text(response.totate);
                       $('#med_ate').text(response.medate);
                       $('#int_ate').text(response.inapco);
@@ -79,6 +81,7 @@
 
             // =============================================
 
+            // ATUALIZA GRÁFICOS
             $.ajax({
               url: '{{ route('atualizar.gra') }}',
               type: 'POST',
@@ -98,10 +101,12 @@
             });
           });
 
-          // Ao carregar a página
+          // Atualiza indicadores e gráficos ao carregar a página
           $('#atualiza').click();
       });
 
+      // CRIA OS GRÁFICOS AO CARREGAR A PÁGINA
+      // Atend. por Setor
       function criarGrafico() {
         var ctx = document.getElementById('myChart').getContext('2d');
         var myChart = new Chart(ctx, {
@@ -125,8 +130,9 @@
             }
           }
         });
-        // ======================
 
+        // ======================
+        // Atendimentos por Mês
         var ctx1 = document.getElementById('myChart1').getContext('2d');
         var myChart = new Chart(ctx1, {
           type: 'bar',
@@ -146,8 +152,9 @@
             responsive: true
           }
         });
-        // ======================
 
+        // ======================
+        // Top 5 Convênios
         var ctx2 = document.getElementById('myChart2').getContext('2d');
         var myChart = new Chart(ctx2, {
           type: 'bar',
@@ -170,7 +177,7 @@
         });
 
         // ======================
-
+        // Top 5 Médicos
         var ctx3 = document.getElementById('myChart3').getContext('2d');
         var myChart = new Chart(ctx3, {
           type: 'bar',
@@ -193,7 +200,7 @@
         });
 
         // ======================
-
+        // Top 5 Diagnósticos
         var ctx4 = document.getElementById('myChart4').getContext('2d');
         var myChart = new Chart(ctx4, {
           type: 'bar',
@@ -216,16 +223,13 @@
         });
       }
 
+      // Função para atualizar o gráfico de pizza (Atend. por Setor)
       function atualizarGrafico(newLabel,newDados) {
-        // Obtenha a referência do gráfico
-        var chart = Chart.getChart('myChart');
-        // Atualize os dados do gráfico
-        chart.data.datasets[0].data = newDados;
+        var chart = Chart.getChart('myChart'); // Obtenha a referência do gráfico
+        chart.data.datasets[0].data = newDados; // Atualize os dados do gráfico
         chart.data.labels = newLabel;
-        // Gere novas cores aleatórias
-        chart.data.datasets[0].backgroundColor = gerarCoresAleatorias(newDados.length);
-        // Atualize o gráfico
-        chart.update();
+        chart.data.datasets[0].backgroundColor = gerarCoresAleatorias(newDados.length); // Gere novas cores aleatórias
+        chart.update(); // Atualize o gráfico
       }
 
       // Atualiza graf. barras

@@ -21,8 +21,8 @@ class DashController extends Controller
     {
         // Obtenha os dados enviados via AJAX
         $dados = $request->input('dados');
-        $array = $dados['array']; // Acessando o array enviado via AJAX
-        $outroDado = $dados['outroDado']; // Acessando o outro dado enviado via AJAX
+        /*$array = $dados['array']; // Acessando o array enviado via AJAX
+        $outroDado = $dados['outroDado']; // Acessando o outro dado enviado via AJAX*/
 
         $compe = $dados['compe'];
         $setor = $dados['setor'];

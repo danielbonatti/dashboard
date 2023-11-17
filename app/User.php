@@ -15,6 +15,9 @@ class User extends Authenticatable
      *
      * @var array
      */
+    protected $table = 'gsc_usr';
+    protected $primaryKey = 'nrecno';
+    
     protected $fillable = [
         'name', 'email', 'password',
     ];

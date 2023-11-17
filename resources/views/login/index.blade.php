@@ -1,62 +1,49 @@
 @extends('login.layout')
 @section('content')
+    <div class="container">
+        <div class="box-login">
+            <div class="card-painel">
+                <h3>Painel Dashboard</h3>
+            </div>
+            <div class="login-form">
+                <form method="post" action=" {{ route('login.user') }} ">
+                    @csrf
+                    <a href="http://hsist.com.br" class="logo-hsist">
+                        <img src="{{ asset('public/images/logo.png') }}" alt="Logo Hsist">
+                    </a>
+                    <h1>Login</h1>
+                    <!-- Validacao -->
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
 
-<section class="vh-100" style="background-color: #508bfc;">
-    <div class="container py-5 h-100">
-        <div class="row d-flex justify-content-center align-items-center h-100">
-            <div class="col-12 col-md-8 col-lg-6 col-xl-5">
-                <div class="card shadow-2-strong" style="border-radius: 1rem;">
-                    <div class="card-body p-5 text-center">
-            
-                        <form class="form-signin" method="post" action=" {{route('auth.user')}} ">
-                            <!--importar csrf, proteção do laravel, para requisição do formulário-->
-                            @csrf 
-                            <img class="img-responsive mb-4" src="{{ asset('public/images/logo.png') }}" height="70" alt="Hsist">
-                            <h5 class="mb-3 font-weight-normal">Bem-vindo de volta</h5>
+                    @if (session('danger'))
+                        <div class="alert alert-danger">
+                            {{ session('danger') }}
+                        </div>
+                    @endif
+                    <!-- Fim Validação -->
 
-                            @if ($errors->any())
-                                <div class="alert alert-danger">
-                                    <ul>
-                                        @foreach ($errors->all() as $error)
-                                            <li>{{ $error }}</li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                            @endif
+                    <div class="dados-login">
+                        <input type="text" name="usr_usuari" id="usernameId" placeholder="&#xF007; Digite seu usuário."
+                            style="font-family: FontAwesome, nunito" autofocus required>
+                        <input type="password" name="usr_senweb" id="passwordId" placeholder="&#xF023; Digite sua senha."
+                            style="font-family: FontAwesome, nunito" required>
 
-                            @if (session('danger'))
-                                <div class="alert alert-danger">
-                                    {{ session('danger') }}
-                                </div>
-                            @endif
-
-                            <div class="form-group">
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-at"></i></span>
-                                    </div>
-                                    <input type="email" class="form-control" placeholder="Email" aria-label="Usuário" aria-describedby="basic-addon1" name="email" autofocus>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-lock"></i></span>
-                                    </div>
-                                    <input type="password" class="form-control" placeholder="Senha" aria-label="Usuário" aria-describedby="basic-addon1" name="password">
-                                </div>
-                            </div>
-                        
-                            <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
-                            <p class="mt-5 mb-3 text-muted" style="font-size:10px;">HSIST INFORMÁTICA HOSPITALAR<br>TODOS OS DIREITOS RESERVADOS</p>
-                        </form>
+                        <button name="btn_button" id="btn_button" value="btn-button">ACESSAR</button>
                     </div>
-                </div>
+                    <!--<div class="login-infos">
+                            <a href="#">Esqueceu a senha?</a>
+                        </div>-->
+                </form>
             </div>
         </div>
     </div>
-</section>
 
 @endsection
-

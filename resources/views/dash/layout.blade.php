@@ -7,7 +7,7 @@
     <!-- Scripts -->
     <script src="{{ asset('public/js/app.js') }}"></script>
     <!-- Styles -->
-    <link rel="icon" href="{{ asset('public/images/favicon-16x16.ico') }}" type="image/x-icon">
+    <link rel="icon" href="{{ asset('public/images/favicon.ico') }}" type="image/x-icon">
     <link href="{{ asset('public/css/app.css') }}" rel="stylesheet">
     <!-- jQuery 3.6.0 -->
     <script src="{{ asset('public/plugins/jquery-3.6.0.min.js') }}"></script>

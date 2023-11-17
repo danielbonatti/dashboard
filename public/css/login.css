@@ -1,0 +1,184 @@
+*{
+    font-family: 'Nunito', sans-serif;
+}
+body {
+    background: url(../images/Login-Painel.jpg) no-repeat center;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.box-login {
+    background: #fff;
+    height: 572px;
+    max-width: 820px;
+    display: flex;
+    border-radius: 10px;
+    margin: auto;
+    box-shadow: rgba(50, 50, 93, 0.25) -21px 13px 11px -3px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+}
+.card-painel {
+    background: url(../images/Card.jpg) center no-repeat;
+    width: 350px;
+    text-align: center;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card-painel h3 {
+    font-size: 28px;
+    font-weight: bold;
+    color: #fff;
+    width: 100%;
+    letter-spacing: 1px;
+}
+
+.login-form {
+    width: 470px;
+}
+
+
+.login-form a.logo-hsist {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10%;
+}
+
+.login-form h1, h4 {
+    text-align: center;
+    color: #858585;
+    font-weight: bold;
+    margin-top: 10%;
+    margin-bottom: 40px;
+}
+
+.dados-login {
+    display: grid;
+    place-items: center;
+    padding-inline: 24px;
+}
+
+.dados-login input {
+    margin-bottom: 24px;
+    max-width: 274px;
+    width: 274px;
+    background: #EEEEEE;
+    border-radius: 10px;
+    color: #848484;
+    padding: 3px;
+    padding-inline: 15px;
+    border: 1px solid #828282;
+}
+
+.dados-login input::placeholder {
+    color: #848484;
+}
+
+.dados-login input:focus {
+    border: 2px solid transparent;
+    border-radius: 10px;
+    background-image: linear-gradient(#EEEEEE, white),
+        linear-gradient(to right, #079AFE, #4FE9E9);
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+    outline: none;
+}
+
+.dados-login button {
+    margin-top: 20px;
+    width: 238px;
+    max-width: 238px;
+    height: 43px;
+    border-radius: 20px;
+    border: none;
+    color: #fff;
+    font-weight: bold;
+    font-size: 16px;
+    letter-spacing: 1px;
+    background: linear-gradient(100deg, #079AFE 0%, #4FE9E9 100%);
+    transition: all 1s;
+}
+
+.dados-login button:hover {
+    transform: scale(1.05);
+}
+
+.login-infos {
+    display: grid;
+    place-items: center;
+    margin-top: 37px;
+    margin-bottom: 40px;
+    max-width: 100%;
+}
+
+.login-infos a {
+    color: #848484;
+    text-decoration: none !important;
+}
+
+.login-infos a:hover {
+    color: #a5a5a5;
+}
+
+.alert{
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 5px;
+    text-align: center;
+    margin-top: -20px;
+}
+
+.alert ul{
+    margin: auto;
+}
+
+.alert ul li{
+    position: relative;
+    left: -5%;
+}
+
+.alert ul li::marker{
+    content: '';
+}
+
+@media (max-width: 768px) {
+    body {
+        background: url(../images/background-mobile.jpg) no-repeat center center;
+        background-size: cover;
+        height: 100vh;
+        margin: 0;
+        width: 100%;
+    }
+
+    .card-painel {
+        display: none !important;
+    }
+
+    .login-form {
+        width: 100%;
+        max-width: 100%;
+    }
+}
+
+@media(max-width:414px){
+    body {
+        background: url(../images/background-mobile-2.jpg) no-repeat center center;
+    }
+}
+
+/*
+@media(max-width: 414px){
+    body {
+        background: url(../images/background-mobile2-painel.jpg) no-repeat center center;
+        background-size: cover;
+        height: 100vh;
+        margin: 0;
+        width: 100%;
+    }
+} */

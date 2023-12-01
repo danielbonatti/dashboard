@@ -83,7 +83,9 @@ class LoginController extends Controller
                         $convenios = DB::table('clientes')->select('xclientes as codigo', 'razao')->get(); // convênio
                         // -----------
 
-                        return view('dash.index', compact('setores', 'convenios'));
+                        //return view('dash.index', compact('setores', 'convenios'));
+                        //return view('home.index', compact('setores', 'convenios'));
+                        return view('home.index', compact('setores', 'convenios'))->with(['user' => Auth::user()]);
                     } else {
                         // Retorna caso não confiram
                         return redirect(route('login.page'))

@@ -3,7 +3,7 @@
     <div class="container">
         <div class="box-login">
             <div class="card-painel">
-                <h3>Painel Dashboard</h3>
+                <h3>Dashboard</h3>
             </div>
             <div class="login-form">
                 <form method="post" action=" {{ route('login.user') }} ">

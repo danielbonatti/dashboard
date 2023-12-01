@@ -23,6 +23,12 @@
         max-height: 400px; 
         width: 100%;
       }
+
+      .periodoData{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
     </style>
 
     <title>Dashboard</title>
@@ -52,8 +58,9 @@
                 /* Exemplo de array que será enviado para a rota
                 array: [1, 2, 3], 
                 outroDado: 'Valor',*/
-
-                compe: $('#compe').val(),
+                compe_inicial: $('.compe#data_inicial').val(),
+                compe_final: $('.compe#data_final').val(),
+                //compe: $('#compe').val(),
                 setor: $('#setor').val(),
                 conve: $('#convenio').val(),
                 anali: $('#analise').val()

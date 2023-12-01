@@ -27,7 +27,8 @@ Route::get('login/alterar/{nrecno?}',[LoginController::class,'alterarSenha'])->n
 Route::post('login/alterar/{nrecno?}',[LoginController::class,'alterarSenhaPost'])->name('login.alterar.post');
 
 Route::middleware(['client'])->group(function(){
-    Route::get('home',[DashController::class,'index'])->name("home");
+    Route::get('/home',[DashController::class,'index'])->name("home");
+    Route::get('dash',[DashController::class,'dash'])->name("dash");
     Route::post('/atualizar-tag', [DashController::class,'atualizarTag'])->name('atualizar.tag');
     Route::post('/atualizar-gra', [DashController::class,'atualizarGra'])->name('atualizar.gra');
 });

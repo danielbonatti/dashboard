@@ -6,8 +6,8 @@
                 <div class="itens-box-card">
                     <div class="row content-box-card">
                         <div class="col-md-8">
-                            <h1>Olá {{ ucfirst(strtolower($user->usr_usuari)) }}!</h1>
-                            <p>Bem-vindo ao painel de indicadores de desempenho.</p>
+                            <h1>Bem vindo!</h1>
+                            <p>Você está no painel de indicadores de desempenho.</p>
                         </div>
                         <div class="col-md-4 img-hospital">
                             <img src="{{ asset('public/images/hospital.png') }}" alt="Imagem hospital">

@@ -41,7 +41,7 @@
                                     </select>
                                 </div>
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item" style="display: none;">
                                 <div class="form-group">
                                     <label for="analise">Análise</label>
                                     <select class="form-control" id="analise">
@@ -62,8 +62,10 @@
 
             <main role="main" class="col-12 col-sm-12 col-md-9 col-lg-10 ml-sm-auto px-4">
                 <div
-                    class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    class="navDash">
                     <h1 class="h2">Dashboard</h1>
+                    <p class="text-center titulo">Pronto Socorro</p>
+                    <hr>
                 </div>
 
                 <div>

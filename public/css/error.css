@@ -1,0 +1,43 @@
+*{
+    font-family: 'Nunito', sans-serif;
+}
+body {
+    background: linear-gradient(61deg, rgba(111,201,225,1) 0%, rgba(137,71,245,1) 100%);
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.card-error{
+    background: #fff;
+    height: 500px;
+    padding-inline: 100px;
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.card-error h1{
+    font-size: 165px;
+    margin: 0;
+    background: -webkit-linear-gradient(#6fc9e1, #8947f5);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.card-error h3{
+    font-size: 35px;
+    margin: 0;
+    color: #7a7a7a;
+}
+
+.card-error p{
+    font-size: 17px;
+    color: #848484;
+}

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\LoginController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\DashController;
@@ -19,12 +20,18 @@ use App\Http\Controllers\DashController;
     return view('welcome');
 });*/
 
-Route::get('/',[UsuarioController::class,'index'])->name('login.page');
-Route::post('/auth',[UsuarioController::class,'auth'])->name('auth.user');
-Route::get('/out',[UsuarioController::class,'out'])->name('user.out');
+Route::get('/',[LoginController::class,'index'])->name('index');
+Route::get('/out',[LoginController::class,'out'])->name('user.out');
+
+//Route::get('/login',[LoginController::class,'login'])->name('login.user');
+//Route::get('login/alterar/{nrecno?}',[LoginController::class,'alterarSenha'])->name('login.alterar');
+//Route::post('login/alterar/{nrecno?}',[LoginController::class,'alterarSenhaPost'])->name('login.alterar.post');
+
+Route::get('/error',[LoginController::class,'error'])->name('error.page');
 
 Route::middleware(['client'])->group(function(){
-    Route::get('home',[DashController::class,'index'])->name("home");
+    Route::get('/home',[DashController::class,'index'])->name("home");
+    Route::get('dash',[DashController::class,'dash'])->name("dash");
     Route::post('/atualizar-tag', [DashController::class,'atualizarTag'])->name('atualizar.tag');
     Route::post('/atualizar-gra', [DashController::class,'atualizarGra'])->name('atualizar.gra');
 });

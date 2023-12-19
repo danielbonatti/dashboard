@@ -1,0 +1,354 @@
+body {
+    background: url("../images/bg-layout-dash.jpg") center center no-repeat;
+    background-size: cover;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    /*width: 100%;*/
+}
+
+/* Navbar */
+
+.navbar-home {
+    width: 100%;
+    margin-top: 25px;
+}
+
+.navbar img {
+    width: auto;
+    height: auto;
+    max-width: 100%;
+}
+
+.nav-itens {
+    margin: auto;
+}
+
+.nav-itens ul {
+    display: flex;
+    justify-content: flex-start;
+    list-style: none;
+    margin: auto;
+}
+
+.nav-itens ul li a {
+    color: #fff;
+    font-size: 20px;
+    margin-left: 30px;
+    text-decoration: none;
+}
+
+.nav-itens ul li a.active {
+    color: #80fdf8;
+    border-bottom: 2px solid;
+}
+
+.nav-itens ul li a:hover {
+    color: #80fdf8;
+    transition: all 0.2s;
+}
+
+.logout {
+    text-align: end;
+    margin: auto;
+}
+
+.logout a {
+    color: #fff;
+    font-size: 20px;
+    text-decoration: none;
+}
+
+.logout a:hover {
+    color: #80fdf8;
+    transition: all 0.2s;
+}
+
+/* Menu responsivo */
+.menu-responsivo {
+    background: #fff;
+    top: 0;
+    left: -70%;
+    width: 70%;
+    display: block;
+    height: 100%;
+    overflow: auto;
+    position: fixed;
+    z-index: 99999;
+    padding: 0px 0;
+    transition: 0.5s;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.menu-responsivo img {
+    margin: 20px auto;
+    margin-top: 60px;
+    display: block;
+    max-width: 200px;
+}
+
+.menu-responsivo ul {
+    display: table;
+    width: 100%;
+    padding-inline-start: 0;
+    margin-top: 20px;
+}
+
+.menu-responsivo ul li {
+    display: table;
+    width: 100%;
+    border-bottom: 1px solid #dedede;
+    transition: all 0.5s;
+}
+
+.menu-responsivo ul li a {
+    color: #5b5757;
+    text-align: center;
+    display: block;
+    font-size: 14px;
+    padding: 15px;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.menu-responsivo li.personalizacao::before {
+    content: "▼";
+    display: inline-block;
+    margin-right: 5px;
+    position: absolute;
+    right: 20%;
+}
+
+.menu-responsivo li.personalizacao.open::before {
+    transform: rotate(180deg);
+    position: absolute;
+}
+
+.menu-responsivo li.personalizacao {
+    color: #5b5757;
+    text-align: center;
+    font-size: 14px;
+    padding: 15px;
+    font-weight: bold;
+    text-decoration: none;
+    position: relative;
+}
+
+.sub-menu {
+    margin-top: 15px;
+    background: #f1f1f1;
+    border-top: 1px solid #dedede;
+}
+
+.chama-menu:before,
+.chama-menu:after,
+.chama-menu .menu-chamado {
+    background: #ffffff;
+    content: "";
+    display: block;
+    height: 6px;
+    border-radius: 3px;
+    margin: 7px 0;
+    transition: 0.5s;
+}
+
+.chama-menu.active:before {
+    transform: translateY(12px) rotate(45deg);
+}
+
+.chama-menu.active:after {
+    transform: translateY(-12px) rotate(-45deg);
+}
+
+.chama-menu.active .menu-chamado {
+    opacity: 0;
+}
+
+.chama-menu img {
+    width: 60px;
+}
+
+/* Fim menu responsivo */
+
+/* Fim Navbar */
+
+/* Contéudo */
+.itens-box-card {
+    background: rgb(255 255 255 / 42%);
+    border-radius: 15px 15px 0px 0px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(2px);
+    /* text-align: center; */
+    /* padding-top: 25px; */
+    /* padding-bottom: 25px; */
+    /* margin-top: 8%; */
+    padding: 45px 10px 35px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 451px;
+    /*margin-bottom: 45px;*/
+}
+
+.itens-box-card h1 {
+    color: #fff;
+    font-weight: bold;
+    font-size: 35px;
+    margin-bottom: 0;
+    font-family: "montserrat";
+}
+
+.itens-box-card h2 {
+    color: #fff;
+    font-weight: bold;
+    font-size: 38px;
+    margin-bottom: 0;
+    font-family: "montserrat";
+}
+
+.itens-box-card h3 {
+    color: #5b5757;
+    font-weight: bold;
+    font-size: 35px;
+    margin-bottom: 0;
+}
+
+.itens-box-card a {
+    color: #5b5757;
+    text-decoration: none;
+    background-color: #fff;
+    /* display: flex; */
+    border-radius: 10px;
+    /* max-width: 100%; */
+    padding: 2px;
+    width: 312px;
+    left: 50%;
+    justify-content: center;
+    margin-top: 20px;
+    font-size: 24px;
+    margin: 15px 0px 0px 0px;
+    text-align: center;
+}
+
+.itens-box-card a:hover {
+    background: #eaeaea;
+    transform: scale(1.03);
+    transition: all 0.3s;
+}
+
+.itens-box-card.analises {
+    margin-top: 74px;
+    border-radius: 15px;
+}
+
+.itens-box-card.clima {
+    width: 100%;
+    height: 100%;
+    border-radius: 15px;
+}
+
+.content-box-card {
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.content-box-card.img-hospital {
+    position: relative;
+}
+
+.content-box-card p {
+    font-size: 20px;
+    color: #5b5757;
+    line-height: 26px;
+    margin-bottom: 0;
+}
+
+.content-box-card img {
+    width: 100%;
+    max-width: 100%;
+    margin: auto;
+    object-fit: contain;
+}
+
+.cards{
+    margin: 20px 0px 10px 0px;
+}
+
+.calendario {
+    background-color: #e0e8ff;
+    max-width: 451px;
+    border-radius: 0px 0px 15px 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 100%;
+}
+
+.calendario p {
+    color: #5b5757;
+    padding: 13px;
+    font-size: 25px;
+    margin: auto;
+}
+
+.calendario img {
+    margin: auto;
+    width: 45px;
+}
+
+.conteudo-clima {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.disabled{
+    pointer-events: none;
+  cursor: default;
+  opacity: 0.6;
+}
+
+/* Fim Conteudo */
+
+/* footer */
+
+footer {
+    margin-top: auto;
+  }
+
+/* Fim footer*/
+
+
+@media (max-width: 768px) {
+    .nav-itens {
+        display: none;
+    }
+    .logout {
+        display: none;
+    }
+    .chama-menu {
+        width: 50px;
+        display: block;
+        position: absolute;
+        right: 4%;
+        padding: 5px;
+        border-radius: 5px;
+    }
+    .itens-box-card.analises{
+        margin-top: 80px;
+    }
+    .itens-box-card.clima {
+        margin: 30px 0 30px 0;
+    }
+    .content-box-card img{
+        width: auto;
+        display: flex;
+    }
+    .calendario img{
+        height: 45px;
+    }
+}
